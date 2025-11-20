@@ -1,0 +1,81 @@
+Q1 - Given a DataFrame with customer transactions, identify all customers who have increased their monthly spending by at least 20% compared to their 6 month average.
+Sample Data: Assume a DataFrame transactions with columns ['CustomerID', 'TransactionDate', 'Amount'].
+
+Q2 - From the DataFrame of transactions, identify all users who have had at least three transactions per month for the last six months.
+Sample Data: Assume a DataFrame transactions with columns ['UserID', 'TransactionDate', 'Amount'].
+
+Q3 - Given sales data, group by month and product category. For each group, identify the product with the highest sale and return a DataFrame with these products and their sales figures.
+Sample Data: Assume a DataFrame sales_data with columns ['Date', 'Category', 'Product', 'Sales'].
+
+Q4 - Create a pivot table from a sales dataset that shows the sum of sales and the average discount rate by month and salesperson.
+Sample Data: Assume a DataFrame sales with columns ['Salesperson', 'Date', 'Sales', 'DiscountRate'].
+
+Q5 - Aggregate a dataset by calculating the mean of a column, excluding the top and bottom 5% of the data.
+Sample Data: Assume a DataFrame performance_data with columns ['EmployeeID', 'Score'].
+
+1. How do you handle duplicate values in a Pandas DataFrame?
+2. What is the purpose of the apply() function in Pandas? Can you provide an example?
+3. How do you handle categorical data in Pandas?
+4. What are the benefits of using vectorized operations in NumPy?
+5. How do you reshape a NumPy array?
+6. What is broadcasting in NumPy and how does it work?
+7. How do you concatenate two or more arrays in NumPy?
+8. What is the purpose of the axis parameter in NumPy functions?
+9. How do you perform element-wise multiplication on two NumPy arrays?
+10. How do you calculate the correlation coefficient between two columns in a Pandas DataFrame?
+11. What is the purpose of the groupby() function in Pandas? Can you provide an example?
+12. How do you handle outliers in a Pandas DataFrame?
+13. What is method chaining in Pandas? How does it improve code readability?
+14. How do you handle datetime data in Pandas?
+15. What are some common methods for data normalization in Pandas?
+16. How do you perform feature scaling on a Pandas DataFrame?
+17. What is the purpose of the applymap() function in Pandas? Can you provide an example?
+18. How do you create a pivot table in Pandas using the pivot_table() function?
+19. How do you handle multi-indexing in Pandas DataFrames?
+20. What are some techniques for handling imbalanced datasets in Pandas or NumPy?
+
+
+
+- How do you handle multi-level indexing in pandas?
+- How do you drop columns from a DataFrame in pandas?
+- How do you create a pivot table in pandas?
+- How do you calculate rolling statistics in pandas?
+- How do you concatenate strings in a DataFrame column using pandas?
+
+- How do you create a cross-tabulation in pandas?
+- How do you handle categorical data in pandas?
+- How do you calculate cumulative sum in a DataFrame using pandas?
+- How do you convert data types of columns in a DataFrame using pandas?
+- How do you handle datetime data in a DataFrame using pandas?
+
+- How do you resample time-series data in pandas?
+- How do you merge and append DataFrames with different column names in pandas?
+- How do you calculate cumulative percentage in a DataFrame column using pandas?
+- How do you handle data imputation in pandas?
+- How do you calculate percentage change in a DataFrame column using pandas?
+
+- How do you calculate the rank of values in a DataFrame column using pandas?
+- How do you calculate the difference between consecutive values in a DataFrame column using pandas?
+- How do you drop duplicate rows based on a specific column in pandas?
+- How do you calculate the mean, median, and mode of a DataFrame column using pandas?
+
+
+
+
+1. What is the difference between append() and extend() methods in Python lists?
+2. What are lambda functions in Python, and how are they used?
+3. Explain the concept of list comprehension in Python.
+4. How can you iterate over a dictionary in Python?
+5. Explain the use of the map() and filter() functions in Python.
+6.What is the difference between a Mutable datatype and an Immutable data type?
+7.What is the difference between a Set and Dictionary?
+8.What is the difference between / and // in Python?
+9.Difference between for loop and while loop in Python.
+10.What is a dynamically typed language?
+11.What is a break, continue, and pass in Python? 
+12.What is the difference between xrange and range functions?
+13.Differentiate between List and Tuple?
+14.What is a pass in Python?
+15.What is Scope in Python?
+
+

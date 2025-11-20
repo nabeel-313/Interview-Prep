@@ -1,0 +1,388 @@
+Handling date and time data is crucial in many SQL tasks. Here’s how to work with dates effectively.
+
+✅ Common Date Functions:
+GETDATE(): Returns the current date and time.
+DATEADD(): Adds a specified number of date parts to a date.
+DATEDIFF(): Calculates the difference between two dates. -->> 3 argument (day/month/yer), 1st date, 2nd date
+ DATE_TRUNC('month', SaleDate)
+FORMAT(): Formats a date according to a specified format.
+
+✅ Example: Calculate the number of days between today and the last login date of users.
+SELECT username, DATEDIFF(DAY, last_login, GETDATE()) AS days_since_last_login
+FROM users;
+
+Explanation: DATEDIFF calculates the difference in days between the current date and each user's last login date.
+
+Follow Sanket Mishrikotkar to keep up with daily SQL challenges and tips! 💡
+
+
+Most frequently asked SQL interview questions with their answers:
+
+Q1. Write a SQL query to find the top 5 customers with the highest total purchase amount.
+ Assume you have two tables: Customers (CustomerID, Name) and Orders (OrderID, CustomerID, Amount).
+
+SELECT c.CustomerID, c.Name, SUM(o.Amount) AS TotalPurchase
+FROM Customers c
+JOIN Orders o ON c.CustomerID = o.CustomerID
+GROUP BY c.CustomerID, c.Name
+ORDER BY TotalPurchase DESC
+LIMIT 5;
+
+Q2. Write a query to find the nth highest salary from a table Employees with columns EmployeeID, Name, and Salary.
+
+SELECT DISTINCT Salary
+FROM Employees
+ORDER BY Salary DESC
+LIMIT 1 OFFSET n-1;
+
+Replace 'n' with the desired rank (e.g., 3 for the third highest).
+
+Q3. Given a table Sales with columns SaleID, ProductID, SaleDate, and Quantity,
+write a query to find the total quantity sold for each product per month.
+
+SELECT ProductID, DATE_TRUNC('month', SaleDate) AS Month, SUM(Quantity) AS TotalQuantity
+FROM Sales
+GROUP BY ProductID, Month
+ORDER BY ProductID, Month;
+
+Q4. Write a SQL query to find all employees who have more than one manager.
+Assume you have a table Employees (EmployeeID, Name, ManagerID).
+
+SELECT EmployeeID, Name
+FROM Employees
+GROUP BY EmployeeID, Name
+HAVING COUNT(DISTINCT ManagerID) > 1;
+
+Q5. Given a table Orders with columns OrderID, CustomerID, OrderDate, and a table OrderDetails with columns OrderID,
+ProductID, Quantity,
+ write a query to find the top 3 products with the highest sales quantity.
+
+SELECT ProductID, SUM(Quantity) AS TotalQuantity
+FROM OrderDetails
+GROUP BY ProductID
+ORDER BY TotalQuantity DESC
+LIMIT 3;
+
+Q6. Write a SQL query to find the second most recent order date for each customer from a table Orders (OrderID, CustomerID, OrderDate).
+
+SELECT CustomerID, MAX(OrderDate) AS SecondRecentOrderDate
+FROM Orders
+WHERE OrderDate < (SELECT MAX(OrderDate) FROM Orders o2 WHERE o2.CustomerID = Orders.CustomerID)
+GROUP BY CustomerID;
+
+WITH CTE AS (
+    SELECT
+        CustomerID, OrderDate,
+        ROW_NUMBER() OVER (PARTITION BY CustomerID ORDER BY OrderDate DESC) AS rnk
+    FROM Orders
+)
+SELECT
+    CustomerID, OrderDate
+FROM CTE WHERE rnk = 2;
+
+
+Q7. Given a table Employees with columns EmployeeID, Name, DepartmentID, Salary,
+write a query to find the highest paid employee in each department.
+
+SELECT DepartmentID, EmployeeID, Name, Salary
+FROM Employees e1
+WHERE Salary = (SELECT MAX(Salary) FROM Employees e2 WHERE e2.DepartmentID = e1.DepartmentID);
+
+Q8. Write a SQL query to calculate the cumulative sales for each day in a table Sales with columns SaleID, SaleDate, and Amount.
+
+SELECT SaleDate, SUM(Amount) OVER (ORDER BY SaleDate ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS CumulativeSales
+FROM Sales
+ORDER BY SaleDate;
+
+Q9. Given a table Products with columns ProductID, Name, Price, and a table Sales with columns SaleID, ProductID, Quantity,
+ write a query to find the product with the highest revenue.
+
+SELECT p.ProductID, p.Name, SUM(p.Price * s.Quantity) AS Revenue
+FROM Products p
+JOIN Sales s ON p.ProductID = s.ProductID
+GROUP BY p.ProductID, p.Name
+ORDER BY Revenue DESC
+LIMIT 1;
+
+
+Commonly SQL Interview Question!!
+
+Here are some frequently asked SQL interview questions for data analyst position:
+
+1. Write a query to delete duplicate rows from a table.
+
+2. Write a query to retrieve the names of employees who work in the same department as ‘John’.
+SELECT Name
+FROM Employees
+WHERE DepartmentID = (
+    SELECT DepartmentID FROM Employees
+    WHERE Name = 'John'
+) AND Name != 'John';
+
+
+3. Write a query to display the second highest salary from the Employee table.
+Select MAX(Salary) from Employees
+where salary < (Select MAX(Salary) from Employees)
+Another way
+SELECT Salary
+FROM (
+    SELECT Salary, ROW_NUMBER() OVER (ORDER BY Salary DESC) AS rn
+    FROM Employees
+) AS ranked_salaries
+WHERE rn = 2;
+
+4. Write a query to find all customers who have made more than Two orders.
+SELECT CustomerID FROM Orders
+GROUP BY CustomerID
+HAVING COUNT(OrderID) > 2;
+
+
+5. Write a query to count the number of orders placed by each customer.
+SELECT CustomerID, COUNT(OrderID) AS OrderCount
+FROM Orders
+GROUP BY CustomerID;
+
+6. Write a query to retrieve the list of employees who joined in the last 3 months.
+SELECT EmployeeID, EmployeeName, JoiningDate
+FROM Employees
+WHERE DATEDIFF(MONTH, JoiningDate, GETDATE()) <= 3;
+
+7. Write a query to find duplicate records in a table and count the number of duplicates for each unique record.
+
+8. Write a query to list all products that have never been sold.
+SELECT p.ProductID, p.ProductName
+FROM Products p
+LEFT JOIN Sales s ON p.ProductID = s.ProductID
+WHERE s.ProductID IS NULL;
+
+SELECT ProductID, ProductName
+FROM Products
+WHERE ProductID NOT IN (SELECT ProductID FROM Sales);
+
+
+
+9. Write a query to update the salary of employees based on their performance rating.
+
+10. Write a query to find all employees who earn more than the average salary.
+Select employees, salary from emp where salary > (SELECT AVG(Salary) from emp)
+
+11. Write a query to retrieve the list of employees who joined in the last 3 months.
+SELECT EmployeeID, EmployeeName, JoiningDate
+FROM Employees
+WHERE DATEDIFF(MONTH, JoiningDate, GETDATE()) <= 3;
+
+12. Write a query to identify the top 10 customers who have not placed an order in the last year.
+SELECT c.CustomerID, c.CustomerName
+FROM Customers c
+LEFT JOIN Orders o ON c.CustomerID = o.CustomerID
+WHERE o.OrderDate IS NULL OR o.OrderDate < DATEADD(year, -1, GETDATE())
+GROUP BY c.CustomerID, c.CustomerName
+ORDER BY COUNT(o.OrderID) DESC
+LIMIT 10;
+
+13. Create a query to compute the year-over-year growth rate of revenue for each product category.
+
+14. Write a query to join three tables and filter the results to show only records that exist in exactly two of the tables.
+
+15. Write a query to calculate the retention rate of customers over a given time period.
+
+Some frequently Asked SQL Interview Questions with Answers in data analyst interviews:
+
+1. Write a SQL query to find the average purchase amount for each customer.
+Assume you have two tables: Customers (CustomerID, Name) and Orders (OrderID, CustomerID, Amount).
+
+SELECT c.CustomerID, c.Name, AVG(o.Amount) AS AveragePurchase
+FROM Customers c
+JOIN Orders o ON c.CustomerID = o.CustomerID
+GROUP BY c.CustomerID, c.Name;
+
+2. Write a query to find the employee with the minimum salary in each department from a table Employees
+with columns EmployeeID, Name, DepartmentID, and Salary.
+WITH CTE AS (
+    SELECT EmployeeID, Name, DepartmentID, Salary,
+        MIN(Salary) OVER (PARTITION BY DepartmentID) AS MinSalary
+    FROM Employees
+)
+SELECT EmployeeID, Name, DepartmentID, Salary
+FROM CTE
+WHERE Salary = MinSalary;
+
+
+SELECT e1.DepartmentID, e1.EmployeeID, e1 .Name, e1.Salary
+FROM Employees e1
+WHERE Salary = (SELECT MIN(Salary) FROM Employees e2 WHERE e2.DepartmentID = e1.DepartmentID);
+
+3. Write a SQL query to find all products that have never been sold.
+Assume you have a table Products (ProductID, ProductName) and a
+table Sales (SaleID, ProductID, Quantity).
+
+SELECT p.ProductID, p.ProductName
+FROM Products p
+LEFT JOIN Sales s ON p.ProductID = s.ProductID
+WHERE s.ProductID IS NULL;
+
+4. Given a table Orders with columns OrderID, CustomerID, OrderDate, and
+a table OrderItems with columns OrderID, ItemID, Quantity,
+write a query to find the customer with the highest total order quantity.
+
+SELECT o.CustomerID, SUM(oi.Quantity) AS TotalQuantity
+FROM Orders o
+JOIN OrderItems oi ON o.OrderID = oi.OrderID
+GROUP BY o.CustomerID
+ORDER BY TotalQuantity DESC
+LIMIT 1;
+
+5. Write a SQL query to find the earliest order date for each customer from a table Orders (OrderID, CustomerID, OrderDate).
+
+SELECT CustomerID, MIN(OrderDate) AS EarliestOrderDate
+FROM Orders
+GROUP BY CustomerID;
+
+6. Given a table Employees with columns EmployeeID, Name, ManagerID, write a query to find the number of direct reports for each manager.
+
+SELECT ManagerID, COUNT(*) AS NumberOfReports
+FROM Employees
+WHERE ManagerID IS NOT NULL
+GROUP BY ManagerID;
+
+
+7. Given a table Customers with columns CustomerID, Name, JoinDate, and a
+table Orders with columns OrderID, CustomerID, OrderDate,
+write a query to find customers who placed their first order within the last 30 days.
+
+SELECT c.CustomerID, c. Name
+FROM Customers c
+JOIN Orders o ON c.CustomerID = o.CustomerID
+WHERE o.OrderDate = (SELECT MIN(o2.OrderDate) FROM Orders o2 WHERE o2.CustomerID = c.CustomerID)
+AND o.OrderDate >= CURRENT_DATE - INTERVAL '30 day';
+
+5 most asked SQL Interview Questions for Data Engineer jobs.
+
+𝟭. 𝗙𝗶𝗻𝗱 𝘁𝗵𝗲 𝗦𝗲𝗰𝗼𝗻𝗱 𝗛𝗶𝗴𝗵𝗲𝘀𝘁 𝗦𝗮𝗹𝗮𝗿𝘆 𝗶𝗻 𝗮 𝗧𝗮𝗯𝗹𝗲
+
+SELECT MAX(salary) AS SecondHighestSalary
+FROM Employee
+WHERE salary < (SELECT MAX(salary) FROM Employee);
+
+𝟮 . 𝗙𝗶𝗻𝗱 𝗼𝘂𝘁 𝗲𝗺𝗽𝗹𝗼𝘆𝗲𝗲𝘀 𝗲𝗮𝗿𝗻𝗶𝗻𝗴 𝗺𝗼𝗿𝗲 𝘁𝗵𝗮𝗻 𝘁𝗵𝗲𝗶𝗿 𝗺𝗮𝗻𝗮𝗴𝗲𝗿𝘀
+
+SELECT e2.name as Employee
+FROM employee e1
+INNER JOIN employee e2
+ON e1.id = e2.managerID
+WHERE e1.salary < e2.salary
+
+𝟯. 𝗙𝗶𝗻𝗱 𝗰𝘂𝘀𝘁𝗼𝗺𝗲𝗿𝘀 𝘄𝗵𝗼 𝗻𝗲𝘃𝗲𝗿 𝗼𝗿𝗱𝗲𝗿
+
+SELECT name as Customers
+FROM Customers
+WHERE id not in (
+SELECT customerId
+FROM Orders);
+
+𝟰. 𝗗𝗲𝗹𝗲𝘁𝗲 𝗱𝘂𝗽𝗹𝗶𝗰𝗮𝘁𝗲 𝗲𝗺𝗮𝗶𝗹𝘀
+
+DELETE p1
+FROM Person p1 join Person p2
+WHERE p1.Email = p2.Email AND
+p1.Id > p2.Id
+
+𝟱. 𝗖𝗼𝘂𝗻𝘁 𝘁𝗵𝗲 𝗻𝘂𝗺𝗯𝗲𝗿 𝗼𝗳 𝗼𝗿𝗱𝗲𝗿𝘀 𝗽𝗹𝗮𝗰𝗲𝗱 𝗶𝗻 𝘁𝗵𝗲 𝗽𝗿𝗲𝘃𝗶𝗼𝘂𝘀 𝘆𝗲𝗮𝗿 𝗮𝗻𝗱 𝗺𝗼𝗻𝘁𝗵.
+
+SELECT COUNT(*) AS order_count
+FROM orders WHERE EXTRACT(YEAR_MONTH FROM order_date) = EXTRACT(YEAR_MONTH FROM CURDATE() - INTERVAL 1 MONTH);
+
+
+15 of my all-time favourite #sql interview questions that I have been asked while giving interviews:
+
+1️⃣ Explain Order of Execution of SQL query
+2️⃣ Provide a use case for each of the functions Rank, Dense_Rank & Row_Number ( 💡 majority struggle )
+3️⃣ Write a query to find the cumulative sum/Running Total
+4️⃣ Find the Most selling product by sales/ highest Salary of employees
+5️⃣ Write a query to find the 2nd/nth highest Salary of employees
+6️⃣ Difference between union vs union all
+7️⃣ Identify if there any duplicates in a table
+8️⃣ Scenario based Joins question, understanding of Inner, Left and Outer Joins via simple yet tricky question
+9️⃣ LAG, write a query to find all those records where the transaction value is greater then previous transaction value
+SELECT
+    TransactionID,TransactionValue, TransactionDate
+FROM (SELECT
+        TransactionID, TransactionValue, TransactionDate,
+        LAG(TransactionValue) OVER (ORDER BY TransactionDate) AS PreviousTransactionValue
+    FROM Transactions
+    ) AS Subquery
+WHERE TransactionValue > PreviousTransactionValue;
+
+1️⃣ 0️⃣ Rank vs Dense Rank, query to find the 2nd highest Salary of employee
+( Ideal soln should handle ties)
+1️⃣ 1️⃣ Write a query to find the Running Difference (Ideal sol'n using windows function)
+SELECT
+    TransactionID, TransactionValue,TransactionDate,
+    TransactionValue - LAG(TransactionValue) OVER (ORDER BY TransactionDate) AS RunningDifference
+FROM Transactions;
+
+1️⃣ 2️⃣ Write a query to display year on year/month on month growth
+1️⃣ 3️⃣ Write a query to find rolling average of daily sign-ups
+SELECT
+    SignUpDate,SignUpCount,
+    AVG(SignUpCount) OVER (ORDER BY SignUpDate ROWS BETWEEN 6 PRECEDING AND CURRENT ROW
+    ) AS RollingAverage
+FROM SignUps;
+
+1️⃣ 4️⃣ Write a query to find the running difference using self join (helps in understanding the logical approach, ideally this question is solved via windows function)
+1️⃣ 5️⃣ Write a query to find the cumulative sum using self join
+(helps in understanding the logical approach, ideally this question is solved via windows function)
+
+
+50 intermediate-level SQL questions:
+
+1. What is the difference between a clustered and non-clustered index?
+2. Explain the purpose of the GROUP BY clause in SQL.
+3. How do you handle NULL values in SQL queries?
+4. What are the differences between INNER JOIN, LEFT JOIN & RIGHT JOIN?
+5. Explain the difference between UNION and UNION ALL.
+6. How do you create a new table in a SQL database?
+7. What is the purpose of the WHERE clause in SQL?
+8. How do you update existing records in a SQL table?
+9. Explain the purpose of the ORDER BY in SQL.
+10. How to delete records from a SQL table?
+11. What is a subquery, and how do you use it in SQL?
+12. Explain the purpose of the HAVING clause in SQL.
+13. How do you add a new column to an existing SQL table?
+14. What is the difference between a primary key and a unique key?
+15. How do you perform a case-insensitive search in SQL?
+16. What is the purpose of the LIKE operator in SQL?
+17. How do you count the number of rows in a SQL table?
+18. Explain the difference between the CHAR and VARCHAR data types.
+19. How do you calculate the average value of a column in SQL?
+20. What is the purpose of the DISTINCT keyword in SQL?
+21. How do you handle duplicate records in SQL queries?
+22. Explain the purpose of the BETWEEN operator in SQL.
+23. How do you use the IN operator in SQL?
+24. What is the purpose of the CONCAT function in SQL?
+25. How do you use the LIMIT clause to fetch a limited number of records in SQL?
+26. What is a foreign key, and how do you define it in a SQL table?
+27. How do you perform a case-insensitive sort in SQL?
+28. Explain the difference between the TRUNCATE and DELETE commands.
+29. How do you use the AVG function to calculate the average value in SQL?
+30. What is the purpose of the COUNT function in SQL?
+31. How do you use the MAX function to find the maximum value in a column?
+32. Explain the purpose of the SUM function in SQL.
+33. How do you calculate the total number of records in a SQL table?
+34. What is the purpose of the TOP keyword in SQL?
+35. How do you use the DISTINCT keyword to remove duplicate records in SQL?
+36. Explain the difference between the INNER JOIN and OUTER JOIN.
+37. How do you use the GROUP BY clause with aggregate functions in SQL?
+38. What is the purpose of the ROW_NUMBER() function in SQL?
+39. How do you use the CASE statement in SQL?
+40. Explain the difference between the WHERE and HAVING clauses in SQL.
+41. How do you perform a self-join in SQL?
+42. What is the purpose of the CAST function in SQL?
+43. How do you use the COALESCE function in SQL?
+44. Explain the difference between UNION and UNION ALL.
+45. How do you calculate the median value in SQL?
+46. What is the purpose of the RANK() function in SQL?
+47. How do you use the DATEADD function to add days to a date in SQL?
+48. Explain the difference between the EXISTS and IN operators in SQL.
+49. How do you use the ISNULL function to handle NULL values in SQL?
+50. What is the purpose of the ROWID pseudo column in SQL?

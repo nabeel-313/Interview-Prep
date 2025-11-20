@@ -1,0 +1,359 @@
+
+1- Reversing a String using an Extended Slicing techniques.
+2- Count Vowels from Given words .
+3- Find the highest occurrences of each word from string and sort them in order.
+4- Remove Duplicates from List.
+5-Sort a List without using Sort keyword.
+6-Find the pair of numbers in this list whose sum is n no.
+7-Find the max and min no in the list without using inbuilt functions.
+8-Calculate the Intersection of Two Lists without using Built-in Functions
+9-Write Python code to make API requests to a public API (e.g., weather API) and process the JSON response.
+10-Implement a function to fetch data from a database table, perform data manipulation, and update the database.
+
+
+Actively appearing for interviews for Data Scientist and ML Engineer profiles in the last couple of months,
+these are some uncommon and tricky theoretical questions I faced during interviews,
+thought of sharing with the LinkedIn community for discussion/benefit of job seekers :
+1) Why F1-score is computed as a harmonic mean of Precision and Recall and not arithmetic mean?
+2) How boxcox transformation is used to take care of skewness ?
+3)How to reduce false positives in the data?
+4)Which xgboost hyperparameters handle overfiting ?
+5)What is OOB error in random forest?
+6) Explain the concept of vanishing gradient and exploding gradient in RNN
+7) Given a query, which has conflicts wrt a column in database table, what would be the ranks assigned in terms of row_number, rank, dense_rank?
+8)Is scaling to be done after train-test-split? Yes/No and Why ?
+9)How feature selection can be done using Lasso Regression ?
+10) What is dictionary comprehension in Python ?
+
+
+🚀𝐋𝐋𝐌 𝐈𝐧𝐭𝐞𝐫𝐯𝐢𝐞𝐰 𝐐𝐮𝐞𝐬𝐭𝐢𝐨𝐧𝐬
+
+Here, I am sharing some interview questions 
+for the LLM.
+
+𝐓𝐞𝐜𝐡𝐧𝐢𝐜𝐚𝐥 𝐊𝐧𝐨𝐰𝐥𝐞𝐝𝐠𝐞
+
+1. What are large language models and how do they differ from traditional NLP models?
+2. Can you explain the transformer architecture and its significance in LLMs?
+3. What are some common applications of LLMs in the industry today?
+4. Describe the process of pre-training and fine-tuning a language model. Why are both steps important?
+5. How does attention mechanism work in transformer models?
+6. What are the advantages and disadvantages of using LLMs compared to rule-based NLP systems?
+7. Explain the concept of tokenization and its importance in the context of LLMs.
+8. What is transfer learning and how is it applied in training LLMs?
+9. Discuss the challenges associated with training large language models.
+
+ 𝐏𝐫𝐚𝐜𝐭𝐢𝐜𝐚𝐥 𝐄𝐱𝐩𝐞𝐫𝐢𝐞𝐧𝐜𝐞
+
+10. Have you worked with any specific LLMs (e.g., GPT, BERT)? Can you describe your experience and the projects you worked on?
+11. How do you handle model deployment and scalability for LLMs in a production environment?
+12. What techniques do you use to evaluate the performance of a language model?
+13. Can you describe a situation where an LLM was not performing well? How did you address the issue?
+14. How do you ensure the ethical use of LLMs, considering potential biases and misuse?
+
+ 𝐏𝐫𝐨𝐛𝐥𝐞𝐦-𝐒𝐨𝐥𝐯𝐢𝐧𝐠 𝐚𝐧𝐝 𝐈𝐧𝐧𝐨𝐯𝐚𝐭𝐢𝐨𝐧
+
+15. Given a specific NLP task (e.g., sentiment analysis, machine translation), how would you approach building a solution using an LLM?
+16. What are some recent advancements in LLM research that you find exciting or noteworthy?
+17. How would you improve an existing LLM to better understand context in conversation?
+
+ 𝐂𝐚𝐬𝐞 𝐒𝐭𝐮𝐝𝐢𝐞𝐬 𝐚𝐧𝐝 𝐒𝐜𝐞𝐧𝐚𝐫𝐢𝐨𝐬
+
+18. Suppose you need to build a chatbot for customer support. How would you design and implement it using an LLM?
+19. If you were given a large dataset with mixed languages, how would you preprocess it for training an LLM?
+20. Discuss a time when you had to optimize the computational efficiency of an LLM. What strategies did you employ?
+
+Keep Learning 😊!!
+
+It took me 3 hours to debug this data error when building a deep learning model 🧩
+
+Deep learning models may fail to converge due to various reasons. Some causes are obvious and common, and therefore, quickly rectifiable, like:
+- too high/low learning rate
+- no data normalization
+- no batch normalization, etc.
+
+But the problem arises when the cause isn’t that apparent. Therefore, it may take some serious time to debug if you are unaware of them.
+
+One such data-related mistake, which can seriously hurt your deep learning model is label ordering.
+
+Consider a classification dataset. We train two different neural networks using mini-batch gradient descent:
+- Version 1: The dataset is ordered by labels.
+- Version 2: The dataset is shuffled by labels.
+
+The image below depicts their epoch-by-epoch performance.
+- The left model was trained on label-ordered data
+- The right model was trained on the shuffled dataset.
+
+The model receiving a label-ordered dataset miserably fails to converge.
+
+Why does that happen?
+
+Now, if you think about it, overall, both models received the same data. Yet, the order in which the data was fed to these models totally determined their performance.
+
+I vividly remember facing this issue during my very early days in ML.
+
+At that time, it never occurred to me that ordering may influence the model performance. My rationale was that the whole data would always be the same regardless of the ordering.
+
+But later, I realized that this point will only be valid in batch gradient descent, i.e., when the model updates its weights for the entire data in one go.
+
+But in mini-batch gradient descent, the weights are updated after every mini-batch.
+
+Thus, the weight update on a subsequent mini-batch depends on the previous mini-batches.
+
+Thus, in label-ordered data, mini-batch gradient descent leads the model to learn patterns specific to the class it excessively saw early on in training.
+
+Note: Of course, the idea of shuffling is not valid for time-series datasets as their temporal structure is important.
+
+Before I end, one thing that you must ALWAYS remember when training neural networks is that these models can proficiently learn entirely non-existing patterns about your dataset. So never give them any chance to do so.
+
+Taking specifically about label ordering, the good thing is that if you happen to use, say, PyTorch DataLoader, you are safe.
+
+This is because it already implements shuffling. But if you have a custom implementation, ensure that you are not making any such error.
+
+
+🎯Data Science Interview Preparation💼
+
+🚀 Exploring Feature Scaling 📊
+
+💡Explain Feature scaling?
+
+👩‍💼 Feature Scaling is a technique to standardize the independent features present in the data in a fixed range. It is performed during the data pre-processing. 
+
+Here's a brief explanation of common feature scaling techniques:
+
+a). Standardization:
+
+-Rescales features so that they have a mean of 0 and a standard deviation of 1.
+-Less sensitive to outliers compared to other methods.
+
+b). Min-max scaling (Normalization):
+
+-scales all the data features in the range [0, 1] or else in the range [-1, 1] if there are negative values in the dataset. 
+
+c) Robust scaling:
+
+-Similar to standardization but uses the median and interquartile range instead of the mean and standard deviation.
+- More robust to outliers compared to standardization.
+
+d). Unit vector scaling:
+
+- Scales features so that the Euclidean norm (L2 norm) is 1.
+- Ensures that the vector representing each sample has a magnitude of 1.
+
+e). Mean normalization:
+
+- Scales features so that they have a mean of 0 and a range typically between -1 and 1.
+
+f). Quantile transformation:
+
+-transforms the features to follow a uniform or a normal distribution.
+
+g). Power transformation:
+
+- Applies a power transformation to make the data more Gaussian-like.
+- It include the Box-Cox transformation and Yeo-Johnson transformation.
+
+h). Log transformation:
+
+- Applies a logarithmic transformation to the data.
+- Useful for handling skewed distributions and making the data more symmetrical.
+
+i). Rank transformation:
+
+- Replaces the original values with their rank in the sorted array.
+- Useful for non-parametric statistical tests or algorithms that are sensitive to outliers.
+
+j ). Sigmoid normalization:
+
+- Applies a sigmoid function to the data to squash extreme values.
+- Useful for neural networks and other models that benefit from bounded inputs.
+
+Happy Learning 😊 !!
+
+Here's a comprehensive list of key questions for data science interviews:
+
+1. Explain the steps involved in a typical data science project.
+2. What is the difference between supervised and unsupervised learning? 
+3. Discuss the bias-variance tradeoff.
+4. How do you handle missing data in a dataset? What imputation techniques do you use?
+5. What evaluation metrics do you use to assess the performance of a classification model?
+6. Explain the difference between overfitting and underfitting. How do you prevent them in machine learning models?
+7. Describe a machine learning algorithm.
+8. How do you select features for a machine learning model? What feature selection techniques do you employ?
+9. Discuss the concept of cross-validation and its importance in model evaluation.
+10. Can you explain the difference between bagging and boosting? 
+11. What is the purpose of regularization in machine learning? Give examples of regularization techniques.
+12. What is deep learning and how does it differ from traditional machine learning?
+13. Explain the steps in making a decision tree.
+14. What is a Confusion Matrix?
+15. What is variance, bias, standard deviation?
+16. What is Feature Engineering?
+17. Explain Feature scaling?
+18. Explain Classification report.
+19. What is coefficient of determination?
+20. What is a normal distribution?
+'
+
+Elevate Your NLP Interview Preparation🚀
+
+Are you preparing for a NLP interview? Here are some crucial NLP interview questions to help you shine:
+
+1. What is Natural Language Processing (NLP)?
+2. Explain the difference between tokenization, stemming, and lemmatization.
+3. What are n-grams, and how are they useful in NLP tasks?
+4. Describe the process of Named Entity Recognition (NER) and its applications.
+5.What is the bag-of-words model, and what are its limitations?
+6. What are some common pre-processing techniques used in NLP?
+7. What is text normalization in NLP?
+8. Explain the concepts of word embeddings and their significance in NLP tasks.
+9. How does part-of-speech tagging work in NLP?
+10. What is parsing in NLP?
+11.What is the term frequency-inverse document frequency (TF-IDF)?
+12.What is topic modelling in NLP?
+13.What is the Transformer model?
+
+
+If you are preparing an interview for deep learning, Don't miss out on these crucial questions:
+
+
+1. What is deep learning, and how does it differ from traditional machine learning?
+2. What do you understand about Neural Networks in the context of Deep Learning?
+3.What are the different types of deep neural networks? 
+4. What do you mean by an epochs in the context of deep learning?
+5. Explain Batch Gradient Descent. 
+6. Explain Stochastic Gradient Descent. How is it different from Batch Gradient Descent? 
+7. What is an activation function? What is the use of an activation function? 
+8. Explain Forward and Back Propagation in the context of deep learning. 
+ 9. Explain Data Normalization. What is the need for it? 
+10. What are the different techniques to achieve data normalization? 
+11. What do you mean by hyperparameters in the context of deep learning? 
+12. Difference between multi-class and multi-label classification problems. 
+13. Explain transfer learning in the context of deep learning. 
+14. What are the advantages of transfer learning? 
+15. What is a tensor in deep learning? 
+16. Explain the difference between a shallow network and a deep network. 
+17. Differentiate between Convolutional Neural Networks (CNNs) and Recurrent Neural Networks (RNNs)
+18. Explain the different types of activation functions.
+
+
+
+1. What is the difference between append() and extend() methods in Python lists?
+2. What are lambda functions in Python, and how are they used? map, filter, reduce
+3. Explain the concept of list comprehension in Python.
+4. How can you iterate over a dictionary in Python?
+5. Explain the use of the map() and filter() functions in Python.
+6.What is the difference between a Mutable datatype and an Immutable data type?
+7.What is the difference between a Set and Dictionary?
+8.What is the difference between / and // in Python?
+9.Difference between for loop and while loop in Python.
+10.What is a dynamically typed language?
+11.What is a break, continue, and pass in Python? 
+12.What is the difference between xrange and range functions?
+13.Differentiate between List and Tuple?
+14.What is a pass in Python?
+15.What is Scope in Python?
+
+
+ Here are 50 scenario-based questions for an ML engineer interview:
+
+1. Can you explain the concept of overfitting in machine learning?
+
+2. How do you handle missing data in a dataset?
+
+3. What are some common evaluation metrics used in machine learning?
+
+4. Can you describe the bias-variance tradeoff in machine learning?
+
+5. How would you approach feature selection in a machine learning project?
+
+6. What is the purpose of regularization in machine learning?
+
+7. Can you explain the difference between bagging and boosting algorithms?
+
+8. How does gradient descent work in the context of machine learning?
+
+9. What is the difference between supervised and unsupervised learning?
+
+10. Can you explain the concept of cross-validation?
+
+11. How would you handle imbalanced datasets in machine learning?
+
+12. What are some common techniques for dimensionality reduction?
+
+13. Can you explain the concept of ensemble learning?
+
+14. How do you handle outliers in a dataset?
+
+15. What is the difference between classification and regression in machine learning?
+
+16. Can you describe the k-nearest neighbors algorithm?
+
+17. How does the support vector machine algorithm work?
+
+18. What is the purpose of a decision tree in machine learning?
+
+19. Can you explain the concept of random forests?
+
+20. How would you handle a dataset with a large number of features?
+
+21. What is the difference between batch gradient descent and stochastic gradient descent?
+
+22. Can you explain the concept of transfer learning in machine learning?
+
+23. How do you handle categorical variables in a machine learning model?
+
+24. What is the purpose of the activation function in a neural network?
+
+25. Can you describe the backpropagation algorithm?
+
+26. How do you handle missing values in a time series dataset?
+
+27. What is the difference between L1 and L2 regularization?
+
+28. Can you explain the concept of deep learning?
+
+29. How do you handle multicollinearity in a regression model?
+
+30. What is the purpose of dropout in a neural network?
+
+31. Can you describe the concept of word embeddings in natural language processing?
+
+32. How do you handle class imbalance in a classification problem?
+
+33. What is the purpose of the Adam optimizer in deep learning?
+
+34. Can you explain the concept of batch normalization in neural networks?
+
+35. How do you handle data leakage in a machine learning project?
+
+36. What is the difference between precision and recall in a classification model?
+
+37. Can you describe the concept of generative adversarial networks (GANs)?
+
+38. How do you handle time series forecasting in machine learning?
+
+39. What is the purpose of the learning rate in gradient descent?
+
+40. Can you explain the concept of convolutional neural networks (CNNs)?
+
+41. How do you handle outliers in a time series dataset?
+
+42. What is the difference between LSTMs and GRUs in recurrent neural networks?
+
+43. Can you describe the concept of attention mechanisms in deep learning?
+
+44. How do you handle imbalanced classes in a binary classification problem?
+
+45. What is the purpose of the Softmax function in a neural network?
+
+46. Can you explain the concept of word2vec in natural language processing?
+
+47. How do you handle missing values in a panel data structure?
+
+48. What is the difference between generative and discriminative models?
+
+49. Can you describe the concept of transfer learning in computer vision?
+
+50. How do you handle collinearity in a regression model? 
+
+
