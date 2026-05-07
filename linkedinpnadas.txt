@@ -1,4 +1,4 @@
-Some Python - Pandas interview questions that have been asked at top service Based Company for Data Analyst role:
+ Some Python - Pandas interview questions that have been asked at top service Based Company for Data Analyst role:
 
 Sample DataFrame:
 

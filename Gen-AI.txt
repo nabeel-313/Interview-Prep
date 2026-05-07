@@ -1,0 +1,314 @@
+🔹 **Retrieval quality metrics:**
+- Recall@K or Hit Rate — Are you fetching the right context chunks?
+- MRR or nDCG — How well are the most relevant documents ranked?
+
+🔹 **Generation metrics:**
+- Faithfulness score — Are your answers grounded in the retrieved context?
+- Context utilization — How much of the retrieved text is actually used by the model?
+
+🔹 **User-centric metrics:**
+- Response relevance/accuracy (human eval or LLM-as-a-judge).
+- Latency and cost per query — because nobody likes a slow or expensive assistant.
+
+🔹 **System metrics:**
+- Drift in embedding space or retrieval performance over time.
+- Query miss rates and fallback frequency.
+
+GenAI Interview Question Series
+
+Interviewer: In RAG, your vector search latency spikes from 80 ms to 350 ms during peak traffic. What steps do you take to diagnose and fix it?
+
+Explanation:
+
+When vector search latency suddenly increases from 80 ms to 350 ms during peak load, I follow a structured approach: first diagnose the root cause, then apply quick fixes, and finally implement long-term optimization.
+
+
+1. Diagnose What’s Causing the Spike
+
+First, I check the system metrics to understand where the slowdown is happening.
+
+Traffic (QPS): Did the number of queries suddenly increase? High QPS can overload vector search nodes.
+
+Latency breakdown (p50, p95, p99): If p99 jumps but p50 is normal, it means only tail queries are slow. (p99 its percentile, shows that 99% of requests are faster)
+
+Resource usage: CPU, RAM, disk I/O, and network bandwidth of the vector database.
+
+Index health: I check if one shard is overloaded, if cache hit rate dropped, or if ANN search parameters (like HNSW efSearch) are too high.
+
+Logs & traces: These help me confirm if the delay comes from the vector search itself or from steps before/after it (embedding, API, re-ranking).
+
+
+2. Quick Fixes to Reduce Latency Immediately
+
+While diagnosing, I take steps that reduce latency fast:
+
+Add more replicas so traffic gets distributed.
+
+Enable autoscaling during peak traffic windows.
+
+Reduce top-K temporarily to lower the cost per search.
+
+Cache popular queries using Redis or in-memory caching.
+
+
+3. Find the Root Cause
+
+Once the system stabilizes, I run tests to identify the exact cause:
+
+Replaying peak traffic in staging
+
+Checking if the index parameters are too expensive
+
+Looking for hot shards or uneven data distribution
+
+Testing performance on faster storage (NVMe)
+
+
+4. Long-Term Optimizations
+
+After identifying the root cause, I apply permanent fixes:
+
+Tune ANN index parameters (efSearch, M, nprobe)
+
+Rebalance shards across nodes
+
+Use memory-optimized or NVMe-backed instances
+
+Add hybrid retrieval (BM25 → Dense) to reduce vector load
+
+Set up better observability and autoscaling
+
+Interviewer: How do you measure hallucination rate, grounding score, and completeness in LLM outputs?
+
+Explanation:
+
+Hallucination Rate, Grounding Score, and Completeness for LLM evaluation.
+
+To measure how reliable the model is.
+Here are 3 core metrics we should know:
+
+1. Hallucination Rate:
+
+Measures how often the LLM generates false or unsupported claims.
+
+If an answer is not found in context or contradicts facts → it’s a hallucination.
+
+How it’s measured:
+
+Compare model output with ground-truth documents
+
+Use NLI models (Natural Language Inference models)→ check answer alignment with key information.
+
+
+SMEs label incorrect sentences
+
+Formula:
+Hallucination Rate = Hallucinated Statements / Total Statements
+
+Lower = Better
+
+
+
+2. Grounding Score:
+
+Measures how well the response is supported by retrieved documents.
+(Critical in RAG systems.)
+
+How it’s measured:
+
+Check if each answer sentence is entailed by context
+
+Use semantic similarity or RAGAS Groundedness
+
+Higher similarity → better grounding
+
+Scale:
+0 = Not grounded
+1 = Fully grounded
+
+Higher = Better
+
+
+
+3. Completeness Score:
+
+Checks whether the output covers all required parts of the question.
+
+How it’s measured:
+
+Extract key answer elements (facts, steps, fields)
+
+Verify if each is present in the output
+
+Use recall-based metrics or evaluator LLMs
+
+Formula:
+Completeness = Covered Elements / Expected Elements
+
+Higher = Better
+
+
+▪︎ These Metrics Matter Because an LLM can: hallucinate facts, skip important details, ignore the source data.
+
+Python Interview Questions for AI/ML Engineers (Beginner → Advanced)
+
+1. BEGINNER (10 Questions): Core Python + ML foundations
+
+→ What is the difference between a Python list and NumPy array in ML workflows?
+→ Explain broadcasting in NumPy with an example.
+→ What does vectorization mean, and why does it speed up ML code?
+→ How would you handle missing values using Python?
+→ What is the purpose of train-test split and why is it important?
+→ Explain the difference between shallow and deep copy when working with tensors.
+→ What is a Python class, and how do you use it to create a custom ML model?
+→ What are lambda functions and where are they useful in preprocessing?
+→ Explain the difference between map, filter, and reduce.
+→ What is a random seed and why is reproducibility important in ML?
+
+2. INTERMEDIATE (10 Questions): ML model building, data handling, optimization
+
+→ Explain the difference between batch gradient descent, SGD, and mini-batch.
+→ How do you build a custom PyTorch Dataset and DataLoader?
+→ How would you optimize a slow Python preprocessing pipeline?
+→ What is the difference between pickle and joblib for model serialization?
+→ How do you monitor model training using callbacks?
+→ Explain exploding and vanishing gradients.
+→ What is the purpose of one-hot encoding vs label encoding?
+→ How do you detect and eliminate multicollinearity?
+→ How would you evaluate a model on imbalanced data?
+→ Explain how you would log experiments using MLflow or W&B.
+
+3. ADVANCED (10 Questions): Systems-level ML, efficiency, deployment
+
+→ How do you design a scalable MLOps pipeline for continuous training?
+→ Explain the role of ONNX and TorchScript in model optimization.
+→ How do you debug GPU memory leaks in training pipelines?
+→ Explain model quantization, pruning, and distillation.
+→ How do you detect data drift and concept drift in production?
+→ What are the tradeoffs between multiprocessing and PyTorch’s DistributedDataParallel?
+→ How do you implement checkpointing in large-scale model training?
+→ Write a strategy to train models on multi-GPU and multi-node setups.
+→ How do you package, version, and deploy ML models using Docker?
+→ Explain the challenges of real-time inference and how to solve them.
+
+Interviewer: "Your RAG pipeline produces accurate answers, but users complain it’s too slow. What do you do?"
+
+You: "That's the classic trade-off between retrieval quality and latency. Most teams over-optimize for accuracy early on, then realize response time kills adoption."
+
+Interviewer: "So where do you start optimizing?"
+
+You: "First, I look at where the delay actually comes from.
+Usually, it's one of three things:
+1. Vector search latency - embedding model or ANN index not optimized.
+2. Document chunking - too many chukns retrieved = more context tokens = higher inference time.
+3. LLM context length - longer context means higher cost and slower generation."
+
+Interviewer: "And your quick wins?"
+
+You:
+ - Switch to dense retrieval caching for repeated queries.
+ - Use re-ranking only for complex questions, not every call.
+ - Compress context with summary embeddings or hierarchical retrieval.
+ - Use function calling or structured context instead of dumping long passages.
+
+Interviewer: "So you trade off depth for speed?"
+
+You: "Not always. I trade redundant context for useful context.
+Most teams think 'more retrieval = better grounding'.
+But in practice, fewer, higher-quality chunks -> same accuracy, 3x faster responses."
+
+Interviewer: "How do you know when you've hit the sweet spot?"
+
+You: "When latency < 3s and user trust doesn't drop.
+That’s when the system feels 'instant' and grounded."
+
+Interviewer: "So RAG optimization is less about models and more about experience design?"
+
+You: "Yep. The best GenAI systems balance precision, performance, and patience.
+Users forgive slight inaccuracy - they never forgive waiting."
+
+Interviewer: In RAG we must build a test framework for retrieval, generation, and grounding. What metrics would you use for RAG evaluation?
+
+Ans:
+
+To evaluate a RAG system, I always divide the testing into three layers: retrieval, generation, and grounding. Each layer needs different metrics because they measure different failure points.
+
+
+1. Retrieval Evaluation
+
+Goal: Did we fetch the right chunks?
+
+▪︎ Key Metrics
+
+-Recall@k – Are relevant docs in the top-k?
+-Precision@k – How many retrieved docs are correct?
+-MRR – How high does the first correct doc appear?
+-nDCG – Ranking quality.
+
+
+2. Generation Evaluation
+
+Goal: Is the LLM producing correct and complete answers?
+
+▪︎ Key Metrics
+
+-ROUGE / BLEU – Similarity to ground-truth answers
+-F1 Score – Fact overlap
+-Answer Completeness Score
+-Latency (p95 / p99) for production
+
+
+3. Grounding & Faithfulness Evaluation
+
+Goal: Is the LLM answer fully supported by the retrieved context?
+
+▪︎ Key Metrics
+
+-Faithfulness Score
+-Attribution Score
+-FactScore
+-Context Precision / Recall
+-Hallucination Rate
+
+🚀KV Caching in LLMs
+
+Large Language Models (LLMs) like GPT, LLaMA, Mistral, and others rely on the Transformer architecture.
+
+But one of the biggest challenges in transformers is speed, especially during text generation.
+
+And that's where KV Caching comes into the picture.
+
+It is one of the most popular technique that makes inference much faster, cheaper, and more scalable.
+
+What is KV Caching?
+In a Transformer decoder, each new token attends to all previous tokens.
+At every generation step, the model internally computes:
+K → Keys
+V → Values
+Q → Query
+
+But there's a catch...
+It's observed that as a new token is generated, the Keys and Values used for previous tokens do not change.
+
+So, we can calculate the KV vectors for just once and only compute the Query vector for the new tokens.
+
+How KV Caching Works?
+
+👉Without KV Cache
+At token t=100 → you compute attention over 1…100
+At token t=101 → recompute 1…101
+At token t=102 → recompute 1…102
+
+Total complexity: 𝗢(𝗻²)
+
+👉With KV Cache
+At token t=100 → you compute attention over stored K/V
+At token t=101 → reuse K/V + compute only for token 101
+At token t=102 → reuse K/V + compute only for token 102
+
+Total complexity: 𝗢(𝗻)
+---
+For more AI related posts that are actually useful, follow me!
+Like👍
+Repost♻️
+

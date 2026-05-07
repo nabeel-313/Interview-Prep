@@ -21,14 +21,14 @@ thought of sharing with the LinkedIn community for discussion/benefit of job see
 5)What is OOB error in random forest?
 6) Explain the concept of vanishing gradient and exploding gradient in RNN
 7) Given a query, which has conflicts wrt a column in database table, what would be the ranks assigned in terms of row_number, rank, dense_rank?
-8)Is scaling to be done after train-test-split? Yes/No and Why ?
+8)Is scaling to be done after train-test-split? Yes/No and Why ? -->> Scaling should be done AFTER the train-test split
 9)How feature selection can be done using Lasso Regression ?
 10) What is dictionary comprehension in Python ?
 
 
 🚀𝐋𝐋𝐌 𝐈𝐧𝐭𝐞𝐫𝐯𝐢𝐞𝐰 𝐐𝐮𝐞𝐬𝐭𝐢𝐨𝐧𝐬
 
-Here, I am sharing some interview questions 
+Here, I am sharing some interview questions
 for the LLM.
 
 𝐓𝐞𝐜𝐡𝐧𝐢𝐜𝐚𝐥 𝐊𝐧𝐨𝐰𝐥𝐞𝐝𝐠𝐞
@@ -117,7 +117,7 @@ This is because it already implements shuffling. But if you have a custom implem
 
 💡Explain Feature scaling?
 
-👩‍💼 Feature Scaling is a technique to standardize the independent features present in the data in a fixed range. It is performed during the data pre-processing. 
+👩‍💼 Feature Scaling is a technique to standardize the independent features present in the data in a fixed range. It is performed during the data pre-processing.
 
 Here's a brief explanation of common feature scaling techniques:
 
@@ -128,7 +128,7 @@ a). Standardization:
 
 b). Min-max scaling (Normalization):
 
--scales all the data features in the range [0, 1] or else in the range [-1, 1] if there are negative values in the dataset. 
+-scales all the data features in the range [0, 1] or else in the range [-1, 1] if there are negative values in the dataset.
 
 c) Robust scaling:
 
@@ -173,7 +173,7 @@ Happy Learning 😊 !!
 Here's a comprehensive list of key questions for data science interviews:
 
 1. Explain the steps involved in a typical data science project.
-2. What is the difference between supervised and unsupervised learning? 
+2. What is the difference between supervised and unsupervised learning?
 3. Discuss the bias-variance tradeoff.
 4. How do you handle missing data in a dataset? What imputation techniques do you use?
 5. What evaluation metrics do you use to assess the performance of a classification model?
@@ -181,7 +181,7 @@ Here's a comprehensive list of key questions for data science interviews:
 7. Describe a machine learning algorithm.
 8. How do you select features for a machine learning model? What feature selection techniques do you employ?
 9. Discuss the concept of cross-validation and its importance in model evaluation.
-10. Can you explain the difference between bagging and boosting? 
+10. Can you explain the difference between bagging and boosting?
 11. What is the purpose of regularization in machine learning? Give examples of regularization techniques.
 12. What is deep learning and how does it differ from traditional machine learning?
 13. Explain the steps in making a decision tree.
@@ -218,20 +218,20 @@ If you are preparing an interview for deep learning, Don't miss out on these cru
 
 1. What is deep learning, and how does it differ from traditional machine learning?
 2. What do you understand about Neural Networks in the context of Deep Learning?
-3.What are the different types of deep neural networks? 
+3.What are the different types of deep neural networks?
 4. What do you mean by an epochs in the context of deep learning?
-5. Explain Batch Gradient Descent. 
-6. Explain Stochastic Gradient Descent. How is it different from Batch Gradient Descent? 
-7. What is an activation function? What is the use of an activation function? 
-8. Explain Forward and Back Propagation in the context of deep learning. 
- 9. Explain Data Normalization. What is the need for it? 
-10. What are the different techniques to achieve data normalization? 
-11. What do you mean by hyperparameters in the context of deep learning? 
-12. Difference between multi-class and multi-label classification problems. 
-13. Explain transfer learning in the context of deep learning. 
-14. What are the advantages of transfer learning? 
-15. What is a tensor in deep learning? 
-16. Explain the difference between a shallow network and a deep network. 
+5. Explain Batch Gradient Descent.
+6. Explain Stochastic Gradient Descent. How is it different from Batch Gradient Descent?
+7. What is an activation function? What is the use of an activation function?
+8. Explain Forward and Back Propagation in the context of deep learning.
+ 9. Explain Data Normalization. What is the need for it?
+10. What are the different techniques to achieve data normalization?
+11. What do you mean by hyperparameters in the context of deep learning?
+12. Difference between multi-class and multi-label classification problems.
+13. Explain transfer learning in the context of deep learning.
+14. What are the advantages of transfer learning?
+15. What is a tensor in deep learning?
+16. Explain the difference between a shallow network and a deep network.
 17. Differentiate between Convolutional Neural Networks (CNNs) and Recurrent Neural Networks (RNNs)
 18. Explain the different types of activation functions.
 
@@ -247,7 +247,7 @@ If you are preparing an interview for deep learning, Don't miss out on these cru
 8.What is the difference between / and // in Python?
 9.Difference between for loop and while loop in Python.
 10.What is a dynamically typed language?
-11.What is a break, continue, and pass in Python? 
+11.What is a break, continue, and pass in Python?
 12.What is the difference between xrange and range functions?
 13.Differentiate between List and Tuple?
 14.What is a pass in Python?
@@ -354,6 +354,6 @@ If you are preparing an interview for deep learning, Don't miss out on these cru
 
 49. Can you describe the concept of transfer learning in computer vision?
 
-50. How do you handle collinearity in a regression model? 
+50. How do you handle collinearity in a regression model?
 
 

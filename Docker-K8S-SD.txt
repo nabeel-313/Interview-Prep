@@ -1,0 +1,85 @@
+👨‍💼 Interviewer 1 — Fundamentals & Math
+
+Derive the full LSTM equations and explain where gating prevents vanishing gradient.
+
+Why is gradient clipping especially important in RNNs?
+
+What happens mathematically if forget gate bias is initialized to zero?
+
+In your LSTM model, what is the exact tensor shape after each layer for batch size 32 and sequence length 200?
+
+Why did you choose last hidden state instead of mean pooling?
+
+If your LSTM achieves 82% accuracy, how do you know it is not overfitting?
+
+What is the computational complexity of LSTM vs Transformer?
+
+In your Transformer, why divide attention scores by √d_k?
+
+Prove that self-attention is permutation invariant.
+
+If I remove positional encoding, what exact failure pattern would appear in sentiment classification?
+
+Why use LayerNorm instead of BatchNorm in Transformers?
+
+What is the memory complexity of self-attention when sequence length = 2000?
+
+Why is CrossEntropyLoss more numerically stable than Softmax + NLLLoss separately?
+
+What is the difference between logits and probabilities?
+
+Why is MNIST not a good benchmark for modern CNN architectures?
+
+👩‍💻 Interviewer 2 — Architecture & Design Decisions
+
+Why did you choose LSTM instead of GRU?
+
+If I ask you to push LSTM accuracy from 82% to 88%, what exact modifications would you implement?
+
+Why did you not use pretrained embeddings?
+
+What would happen if we remove residual connections from your ResNet?
+
+Why use global average pooling instead of flattening?
+
+How would your ResNet behave if input resolution increased from 28×28 to 224×224?
+
+Why does deeper network sometimes perform worse than shallow one?
+
+In your Transformer, how are Q, K, V computed exactly?
+
+Why is attention considered a soft lookup mechanism?
+
+What is the role of the feed-forward network inside a Transformer block?
+
+If I double the number of attention heads but keep embedding dimension fixed, what changes?
+
+In your speech model, why did you use CTC instead of sequence-to-sequence with attention?
+
+Explain CTC blank token mathematically.
+
+Why is WER better than simple accuracy for speech tasks?
+
+If audio sample length doubles, what happens to memory usage?
+
+👨‍🔬 Interviewer 3 — Production & Real-World Thinking
+
+How would you deploy your sentiment model in production?
+
+What latency issues will arise with Transformer inference?
+
+How would you handle out-of-vocabulary words?
+
+What is model drift and how would you detect it?
+
+If users intentionally try to break your sentiment model, how could they do it?
+
+How would you quantize your model?
+
+If training data distribution changes, how would you retrain safely?
+
+How would you monitor speech recognition performance after deployment?
+
+What security risks exist in audio upload systems?
+
+If your model starts misclassifying one particular class, how would you debug it?
